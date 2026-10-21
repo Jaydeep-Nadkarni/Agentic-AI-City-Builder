@@ -27,6 +27,7 @@ class LLMReasoner:
         self,
         state: CityState,
         observations: list[Observation],
+        role_context: dict[str, Any] | None = None,
     ) -> list[Proposal]:
         context = {
             "city": {
@@ -48,8 +49,15 @@ class LLMReasoner:
                 for observation in observations
             ],
         }
+        role_instruction = (
+            json.dumps(role_context, ensure_ascii=False, sort_keys=True)
+            if role_context
+            else "You are the Mayor AI assisting a city planner."
+        )
         prompt = (
-            "You are the Mayor AI assisting a city planner. Return JSON only, "
+            "Use this specialist role context: "
+            + role_instruction
+            + ". Return JSON only, "
             "with this shape: {\"proposals\": [{\"action\": \"review_budget\", "
             "\"parameters\": {}, \"reason\": \"Short evidence-based reason\", "
             "\"cost\": 0, \"agent_role\": \"mayor\"}]}. "
