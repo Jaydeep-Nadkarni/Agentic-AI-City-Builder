@@ -14,6 +14,25 @@ class Agent(Protocol):
     def observe(self, state: CityState) -> Observation | None: ...
 
 
+def specialist_agents() -> tuple[Agent, ...]:
+    """Construct the bundled specialists without changing their implementations."""
+    from .agents import (
+        CityIntelligenceAgent, DisasterManagementAgent, EconomyIndustryAgent,
+        EducationCommunityAgent, EnergyUtilitiesAgent, EnvironmentSustainabilityAgent,
+        FinanceTreasuryAgent, FireEmergencyAgent, HighwayConstructionAgent,
+        HousingPopulationAgent, MayorAgent, PublicHealthAgent, PublicSafetyAgent,
+        TrafficTransportAgent, UrbanPlanningAgent, WaterSanitationAgent,
+    )
+    return (
+        MayorAgent(), UrbanPlanningAgent(), HousingPopulationAgent(),
+        EconomyIndustryAgent(), HighwayConstructionAgent(), TrafficTransportAgent(),
+        EnergyUtilitiesAgent(), WaterSanitationAgent(), DisasterManagementAgent(),
+        FireEmergencyAgent(), PublicSafetyAgent(), PublicHealthAgent(),
+        EducationCommunityAgent(), EnvironmentSustainabilityAgent(),
+        FinanceTreasuryAgent(), CityIntelligenceAgent(),
+    )
+
+
 @dataclass(frozen=True)
 class RuleAgent:
     role: str
@@ -52,3 +71,22 @@ def register(registry: dict[str, Agent], agent: Agent) -> None:
         raise ValueError(f"agent role already registered: {agent.role}")
     registry[agent.role] = agent
 
+
+def build_registry(mode: str = "legacy", enabled_specialist_roles: tuple[str, ...] | None = None) -> dict[str, Agent]:
+    """Build legacy, specialist, or combined registries with explicit collision safety."""
+    if mode not in {"legacy", "specialist", "combined"}:
+        raise ValueError("agent mode must be legacy, specialist, or combined")
+    registry: dict[str, Agent] = {}
+    if mode in {"legacy", "combined"}:
+        registry.update(default_registry())
+    if mode in {"specialist", "combined"}:
+        allowed = set(enabled_specialist_roles) if enabled_specialist_roles else None
+        for agent in specialist_agents():
+            if allowed is not None and agent.role not in allowed:
+                continue
+            key = agent.role
+            if key in registry:
+                # Preserve both implementations while keeping registry keys unique.
+                key = f"specialist:{agent.role}"
+            registry[key] = agent
+    return registry

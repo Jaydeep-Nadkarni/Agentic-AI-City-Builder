@@ -37,3 +37,13 @@ def proposal_to_action(proposal: Proposal, approved: bool = False) -> Action:
     action = Action(proposal.action, dict(proposal.parameters), proposal.cost)
     validate_action(action, approved)
     return action
+
+
+class ActionDispatcher:
+    """Approval-gated dispatcher seam; the default implementation is deliberately inert."""
+
+    def dispatch(self, action: Action | Proposal, approved: bool = False) -> Action:
+        if isinstance(action, Proposal):
+            action = proposal_to_action(action, approved)
+        validate_action(action, approved)
+        return action

@@ -27,6 +27,36 @@ class Planner:
             if len(proposals) >= self.max_actions:
                 break
         return proposals
+
+    def finalize(self, state: CityState, proposals: list[Proposal]) -> tuple[list[Proposal], list[dict[str, str]]]:
+        """Apply deterministic limits, budget, allowlist, and duplicate checks."""
+        accepted: list[Proposal] = []
+        rejected: list[dict[str, str]] = []
+        seen: set[str] = set()
+        spent = 0
+        for proposal in proposals:
+            if proposal.action not in ALLOWLIST:
+                rejected.append({"proposal_id": proposal.proposal_id, "reason": "action not allowlisted"})
+                continue
+            if proposal.action in seen:
+                rejected.append({"proposal_id": proposal.proposal_id, "reason": "duplicate action"})
+                continue
+            if not proposal.requires_approval:
+                rejected.append({"proposal_id": proposal.proposal_id, "reason": "approval is required"})
+                continue
+            if proposal.cost < 0 or proposal.cost != ALLOWLIST[proposal.action].cost:
+                rejected.append({"proposal_id": proposal.proposal_id, "reason": "invalid action cost"})
+                continue
+            if spent + proposal.cost > min(self.budget, max(0, state.budget)):
+                rejected.append({"proposal_id": proposal.proposal_id, "reason": "cycle budget exceeded"})
+                continue
+            if len(accepted) >= self.max_actions:
+                rejected.append({"proposal_id": proposal.proposal_id, "reason": "proposal limit exceeded"})
+                continue
+            accepted.append(proposal)
+            seen.add(proposal.action)
+            spent += proposal.cost
+        return accepted, rejected
     @staticmethod
     def detect_conflicts(proposals: list[Proposal]) -> list[str]:
         actions = [p.action for p in proposals]

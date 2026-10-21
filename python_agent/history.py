@@ -17,3 +17,6 @@ class History:
     def recent(self, limit: int = 50) -> list[dict[str, Any]]:
         return self.entries[-limit:]
 
+    def record_cycle(self, diagnostics: dict[str, Any]) -> None:
+        """Compatibility helper for structured cycle success/failure diagnostics."""
+        self.append({"type": "cycle", **dict(diagnostics)})

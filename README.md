@@ -27,3 +27,12 @@ unavailable until a real transport is verified. See
 [bridge/README.md](bridge/README.md) and
 [bridge/capabilities.json](bridge/capabilities.json) for the verified capability
 inventory.
+
+Agent cycles support `legacy`, `specialist`, and `combined` registration modes.
+Specialists activate only when relevant observed metrics cross their thresholds;
+history records considered, activated, skipped, accepted, rejected, and bounded
+failure diagnostics. Optional shared LLM reasoning runs only for meaningful
+observations and safely falls back to deterministic planning on Groq or response
+errors. `ActionDispatcher` is an inert, approval-gated seam for a future/mock
+dispatcher: unapproved proposals cannot execute. Housing/transport conflicts
+intentionally reject the complete cycle to preserve legacy behavior.
