@@ -1,9 +1,11 @@
 {
   "groq": {
     "endpoint": "https://api.groq.com/openai/v1/chat/completions",
-    "model": "llama-3.1-8b-instant",
+    "model": "openai/gpt-oss-20b",
     "timeout_seconds": 30
   },
   "dashboard": {"host": "127.0.0.1", "port": 8765},
+  "agents": {"mode": "legacy", "enabled_specialist_roles": []},
+  "llm": {"enabled": false},
   "planner": {"approval_required": true, "max_actions_per_cycle": 3, "cycle_budget": 1000}
 }

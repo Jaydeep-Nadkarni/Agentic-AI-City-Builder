@@ -28,7 +28,12 @@ class Orchestrator:
                 self.history.record_cycle(self.last_diagnostics)
                 raise
             if result is None:
-                skipped[role] = "no relevant threshold evidence"
+                relevant = getattr(getattr(agent, "config", None), "relevant_metrics", ())
+                missing = [metric for metric in relevant if metric not in state.metrics]
+                skipped[role] = (
+                    "missing metrics: " + ", ".join(missing)
+                    if missing else "no relevant threshold evidence"
+                )
             else:
                 observations.append(result)
                 activated.append(role)
@@ -50,6 +55,7 @@ class Orchestrator:
             "city_id": state.city_id, "considered": list(self.registry),
             "activated": activated, "skipped": skipped,
             "observations": len(observations), "llm_called": bool(self.llm_enabled and self.reasoner and observations),
+            "observation_details": [o.__dict__ for o in observations],
             "llm_error": llm_error, "accepted": [p.action for p in combined],
             "proposals": [p.action for p in combined],
             "rejected": rejected, "conflicts": conflicts,

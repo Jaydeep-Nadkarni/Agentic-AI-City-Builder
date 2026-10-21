@@ -19,12 +19,13 @@ function render(data) {
   const bridge = data.bridge || {};
   const config = data.config || {};
   const city = data.city || {};
+  const observation = data.observation || {};
 
   $("#metric-grid").innerHTML = [
     ["AI agents", agents.length, "Registered specialists"],
     ["Open proposals", proposals.length, proposals.length ? "Awaiting review" : "Queue is clear"],
     ["Planning budget", `$${Number(city.budget || 0).toLocaleString()}`, "Configured cycle limit"],
-    ["City population", Number(city.population || 0).toLocaleString(), "Live game data unavailable"]
+    ["City population", Number(city.population || 0).toLocaleString(), `${observation.source?.name || "Simulated fixture"} · snapshot ${observation.snapshot_id || "n/a"}`]
   ].map(([label, value, note]) => `<div class="metric"><div class="metric-label">${label}</div><div class="metric-value">${value}</div><div class="metric-note">${note}</div></div>`).join("");
 
   $("#agent-count").textContent = agents.length;
@@ -44,7 +45,8 @@ function render(data) {
   $("#integration-list").innerHTML = [
     ["Planning engine", "Deterministic local planner", true],
     ["Groq model", config.model || "Not configured", Boolean(config.model)],
-    ["TheoTown bridge", `${capabilityCount} capabilities inventoried`, Boolean(bridge.available)]
+    ["TheoTown bridge", `${capabilityCount} capabilities inventoried`, Boolean(bridge.available)],
+    ["Shadow mode", data.shadow_mode ? "Read-only · execution disabled" : "Disabled", data.shadow_mode]
   ].map(([label, detail, available]) => `<div class="integration"><div><div class="integration-label">${escapeHtml(label)}</div><div class="integration-detail">${escapeHtml(detail)}</div></div><span class="integration-state ${available ? "available" : "unavailable"}">${available ? "READY" : "OFFLINE"}</span></div>`).join("");
 
   $("#activity-list").className = history.length ? "activity-list" : "activity-list empty-state";

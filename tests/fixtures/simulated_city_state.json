@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "simulated-city-001",
+  "captured_at": "2026-01-01T00:00:00+00:00",
+  "source": {
+    "name": "simulated_fixture",
+    "kind": "fixture",
+    "version": "1",
+    "simulated": true
+  },
+  "observations": {
+    "city_id": "simulated-city",
+    "population": 12500,
+    "budget": 1000,
+    "happiness": 0.72,
+    "metrics": {
+      "budget": 1,
+      "housing": 1,
+      "transport": 0
+    },
+    "available_services": ["water", "power", "transit"]
+  }
+}
