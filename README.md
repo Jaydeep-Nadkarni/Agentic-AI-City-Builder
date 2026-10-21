@@ -36,3 +36,12 @@ observations and safely falls back to deterministic planning on Groq or response
 errors. `ActionDispatcher` is an inert, approval-gated seam for a future/mock
 dispatcher: unapproved proposals cannot execute. Housing/transport conflicts
 intentionally reject the complete cycle to preserve legacy behavior.
+
+The read-only `ObservationBridge` accepts only explicitly simulated fixture
+snapshots (see `tests/fixtures/simulated_city_state.json`), validates their
+schema and provenance, and maps them to `CityState`. `ShadowModePipeline`
+feeds those snapshots through the existing deterministic, specialist, and
+optional LLM planners while recording snapshot metadata, observations,
+proposals, validation results, and rejections. Shadow cycles always expose
+`execution_enabled=False` and record that execution was not performed; no live
+TheoTown access is claimed.

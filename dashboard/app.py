@@ -72,6 +72,7 @@ class DashboardState:
             reasoner=reasoner,
             llm_enabled=self.settings.llm_enabled,
         )
+        self.llm_configured = reasoner is not None
         self.observation_bridge = ObservationBridge()
         fixture_path = PROJECT_ROOT / "tests" / "fixtures" / "simulated_city_state.json"
         with fixture_path.open(encoding="utf-8") as handle:
@@ -120,7 +121,7 @@ class DashboardState:
                 "dashboard_port": self.settings.dashboard_port,
                 "agent_mode": self.settings.agent_mode,
                 "llm_enabled": self.settings.llm_enabled,
-                "llm_configured": reasoner is not None,
+                "llm_configured": self.llm_configured,
             },
         }
 

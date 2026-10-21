@@ -7,6 +7,7 @@ shadow planning.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from numbers import Real
 from typing import Any, Mapping
 
@@ -61,6 +62,8 @@ class ObservationBridge:
         self._keys(source, self._SOURCE, "source")
         source_name = self._text(source.get("name"), "source.name")
         source_kind = self._text(source.get("kind"), "source.kind")
+        if "version" in source:
+            self._text(source["version"], "source.version")
         if source_kind not in {"fixture", "simulated"}:
             raise ObservationValidationError("only simulated fixture sources are supported")
         if source.get("simulated") is not True:
@@ -114,7 +117,10 @@ class ObservationBridge:
     def _number(value: Any, label: str) -> float:
         if isinstance(value, bool) or not isinstance(value, Real):
             raise ObservationValidationError(f"{label} must be numeric")
-        return float(value)
+        result = float(value)
+        if not math.isfinite(result):
+            raise ObservationValidationError(f"{label} must be finite")
+        return result
 
 
 def load_observation(payload: Mapping[str, Any]) -> ObservationSnapshot:
