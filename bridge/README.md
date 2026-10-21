@@ -4,6 +4,10 @@ The current bridge is intentionally marked unavailable. TheoTown's documented
 Lua API verifies scripts, game-managed storage, and in-game command registration,
 but does not document HTTP, TCP/UDP sockets, or arbitrary filesystem access.
 
+The City module does document read-only city metrics. The isolated
+[live observation discovery](./live_observation.md) probe tests those functions
+inside TheoTown without changing the working plugin or executing game actions.
+
 The authoritative inventory is in [capabilities.json](./capabilities.json), and
 the typed Python representation is in [protocol.py](./protocol.py).
 

@@ -15,6 +15,28 @@
       "status": "documented"
     },
     {
+      "name": "city_read_metrics",
+      "status": "documented",
+      "functions": [
+        "City.getId",
+        "City.getName",
+        "City.getPeople",
+        "City.getMoney",
+        "City.getIncome",
+        "City.getHappiness",
+        "City.countBuildings",
+        "City.countRoads",
+        "City.countCars"
+      ],
+      "requires_in_game_probe": true
+    },
+    {
+      "name": "read_only_observation_display",
+      "status": "experimental",
+      "path": "plugin/observation probe/observer.lua",
+      "exports_to_python": false
+    },
+    {
       "name": "http_transport",
       "status": "unsupported"
     },

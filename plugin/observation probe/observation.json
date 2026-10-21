@@ -1,0 +1,7 @@
+[
+  {
+    "id": "$theotownai_observation_probe00",
+    "type": "script",
+    "script": "observer.lua"
+  }
+]

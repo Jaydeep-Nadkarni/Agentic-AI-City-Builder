@@ -1,0 +1,24 @@
+{
+  "snapshot_id": "recorded-probe-unverified",
+  "captured_at": "2026-10-21T00:00:00+00:00",
+  "source": {
+    "name": "theotown-observation-probe",
+    "kind": "live",
+    "version": "unverified-installed-build",
+    "simulated": false
+  },
+  "observations": {
+    "city_id": "unverified-city",
+    "population": 1,
+    "budget": 1,
+    "happiness": 1.0,
+    "metrics": {
+      "money": 1,
+      "income": 1,
+      "buildings": 1,
+      "roads": 1,
+      "cars": 0
+    },
+    "available_services": []
+  }
+}

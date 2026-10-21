@@ -44,6 +44,19 @@ CAPABILITIES = (
         "Commands are entered inside TheoTown and are not a Python transport.",
     ),
     Capability(
+        "city_read_metrics",
+        "documented",
+        "City module: getId, getName, getPeople, getMoney, getIncome, "
+        "getHappiness, countBuildings, countRoads, countCars, and related functions",
+        "Availability in the installed game build still requires an in-game probe.",
+    ),
+    Capability(
+        "read_only_observation_display",
+        "experimental",
+        "Isolated plugin/observation probe/observer.lua",
+        "Displays a JSON report in TheoTown; it does not export to Python.",
+    ),
+    Capability(
         "http_transport",
         "unsupported",
         "No HTTP API is listed in the official Lua module reference",
