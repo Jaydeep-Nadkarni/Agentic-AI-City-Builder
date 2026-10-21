@@ -1,0 +1,30 @@
+{
+  "source": "https://doc.theotown.com/modules/TheoTown.html",
+  "transport_verified": false,
+  "capabilities": [
+    {
+      "name": "plugin_scripts",
+      "status": "verified"
+    },
+    {
+      "name": "persistent_plugin_storage",
+      "status": "documented"
+    },
+    {
+      "name": "in_game_command_registration",
+      "status": "documented"
+    },
+    {
+      "name": "http_transport",
+      "status": "unsupported"
+    },
+    {
+      "name": "socket_transport",
+      "status": "unsupported"
+    },
+    {
+      "name": "arbitrary_filesystem_ipc",
+      "status": "unsupported"
+    }
+  ]
+}

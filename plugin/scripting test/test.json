@@ -1,0 +1,7 @@
+[
+  {
+    "id": "$scriptingtest00",
+    "type": "script",
+    "script": "myscript.lua"
+  }
+]
